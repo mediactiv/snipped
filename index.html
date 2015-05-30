@@ -12,27 +12,38 @@
         <script src="https://fb.me/JSXTransformer-0.11.1.js"></script>
         <script type="text/jsx" charset="utf-8">
           /** @jsx React.DOM */
+          var subMessage="This is not a submessage",message="Hello World";
           // defines a component
           var MessageBox = React.createClass({
             getInitialState:function () {
                     return {
                             isVisible:true,
-                            titleMessage:'Hello World'
+                            messages:[
+                              "Lorem ipsum dolor sit amet", 
+                              "consectetur adipisicing elit.",
+                              " Itaque explicabo excepturi vel", 
+                              "aspernatur sint, inventore", 
+                              "mollitia unde rerum ullam dicta blanditiis odit ipsa harum consequatur dignissimos commodi perferendis atque dolor."
+                            ]
                     }
             },
             render: function() {
                     var inlineStyles = {
                       display: this.state.isVisible?'block':'none'
                     }
+                    var subMessages = this.state.messages.map(function(message){
+                      return <div><SubMessage message={message}/></div>
+                    })
                     return ( 
                     <div className="my-class" style={inlineStyles}> 
-                              <h1> {this.state.titleMessage} </h1>
-                              <SubMessage></SubMessage>
+                              <h1> {this.props.titleMessage} </h1>
+                              {subMessages}
                       </div>
                     )
             }
           });
           // creating a react component without JSX
+          /*
           var MessageBoxDOM = React.createClass({
             render:function(){
                     return React.DOM.div({className:'container'},
@@ -41,14 +52,25 @@
                     );
             }
           
-          })
+          });
+          */
           var SubMessage = React.createClass({
+            // property validation
+            propTypes:{
+              message:React.PropTypes.string.isRequired
+            },
+            getDefaultProps:function(){
+              return{
+                message:"This is a sub message"
+              }
+            },
             render:function () {
-              return <small>Its good to see you </small> 
+              return <small>{this.props.message}</small> 
             }
-          })
+          });
+        
           // renders the component
-          var ReactComponent = React.renderComponent(<MessageBox></MessageBox>,document.getElementById('app'),function(){console.log('component rendered',arguments)});
+          var ReactComponent = React.renderComponent(<MessageBox titleMessage={message} />,document.getElementById('app'),function(){console.log('component rendered',arguments)});
         </script>
 </body>
 </html>
