@@ -14,12 +14,41 @@
           /** @jsx React.DOM */
           // defines a component
           var MessageBox = React.createClass({
+            getInitialState:function () {
+                    return {
+                            isVisible:true,
+                            titleMessage:'Hello World'
+                    }
+            },
             render: function() {
-              return <h1> Hello, World </h1>;
+                    var inlineStyles = {
+                      display: this.state.isVisible?'block':'none'
+                    }
+                    return ( 
+                    <div className="my-class" style={inlineStyles}> 
+                              <h1> {this.state.titleMessage} </h1>
+                              <SubMessage></SubMessage>
+                      </div>
+                    )
             }
           });
+          // creating a react component without JSX
+          var MessageBoxDOM = React.createClass({
+            render:function(){
+                    return React.DOM.div({className:'container'},
+                      React.DOM.h1(null,'Hello World'),
+                      SubMessage(null)
+                    );
+            }
+          
+          })
+          var SubMessage = React.createClass({
+            render:function () {
+              return <small>Its good to see you </small> 
+            }
+          })
           // renders the component
-          React.renderComponent(<MessageBox></MessageBox>,document.getElementById('app'),function(){console.log('component rendered',arguments)});
+          var ReactComponent = React.renderComponent(<MessageBox></MessageBox>,document.getElementById('app'),function(){console.log('component rendered',arguments)});
         </script>
 </body>
 </html>
