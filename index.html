@@ -14,6 +14,7 @@
           /** @jsx React.DOM */
           var subMessage="This is not a submessage",message="Hello World";
           // defines a component
+
           var MessageBox = React.createClass({
             getInitialState:function () {
                     return {
@@ -37,9 +38,16 @@
                     return ( 
                     <div className="my-class" style={inlineStyles}> 
                               <h1> {this.props.titleMessage} </h1>
+                              <input type="text" name="" id=""/>
+                              { /* event props are camel cased */ }
+                              <button onClick={this.handleAdd}>Add</button>
                               {subMessages}
                       </div>
                     )
+            },
+            // React uses synthetic events and event delegation
+            handleAdd:function(e){
+              console.log(arguments,e.target)
             }
           });
           // creating a react component without JSX
